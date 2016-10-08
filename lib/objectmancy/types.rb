@@ -10,6 +10,5 @@ module Objectmancy
     SPECIAL_TYPES = {
       datetime: DATETIME
     }.freeze
-
   end
 end

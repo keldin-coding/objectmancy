@@ -1,5 +1,6 @@
 require 'objectmancy/errors'
 require 'objectmancy/types'
+require 'objectmancy/attribute_options'
 
 require 'pry'
 
@@ -56,15 +57,11 @@ module Objectmancy
           raise AttributeAlreadyDefinedError, name
         end
 
-        if opts[:objectable] && (opts[:type].nil?)
+        if opts[:objectable] && opts[:type].nil?
           raise ArgumentError, ':objectable option reuqires :type option'
         end
 
-        registered_attributes[symbolized_name] = {
-          type: opts[:type],
-          objectable: opts[:objectable],
-          multiple: opts[:multiple]
-        }
+        registered_attributes[symbolized_name] = AttributeOptions.new(opts)
 
         attr_accessor symbolized_name
       end
@@ -74,7 +71,7 @@ module Objectmancy
       # that doesn't need special initialization) are handled by .attribute.
       #
       # @param name [#to_sym] Attribute name
-       # @param opts [Hash] Options to be applied
+      # @param opts [Hash] Options to be applied
       # @option opts [Symbol, Class] :type The type of object to create. Can be
       #   either a Symbol of one of: :datetime; else, a Class
       # @option opts [Symbol, String] :objectable Method to call on :type. Will
@@ -98,13 +95,12 @@ module Objectmancy
       _assignable_attributes(attrs).each do |attr, value|
         options = self.class.registered_attributes[attr.to_sym]
 
-        if options[:multiple]
-          value = _convert_multiples(
-            value, options[:type], options[:objectable]
-          )
-        elsif options[:type]
-          value = _convert_value(value, options[:type], options[:objectable])
-        end
+        value =
+          if options.multiple
+            _convert_multiples(value, options.type, options.objectable)
+          else
+            _single_vaue(value, options)
+          end
 
         send("#{attr}=", value)
       end
@@ -127,14 +123,20 @@ module Objectmancy
     # @param creator [#to_s, nil] Method used to create the object
     # @return [Array] Array of newly created objects
     def _convert_multiples(multiples, type, creator)
-      if (known = Types::SPECIAL_TYPES[type])
-        creation_klass, creation_method = known[:klass], known[:objectable]
-      else
-        creation_klass = type
-        creation_method = creator || :new
-      end
+      creation_klass, creation_method = _creation_method(type, creator)
 
       multiples.map { |m| creation_klass.send(creation_method, m) }
+    end
+
+    # Evaluates what needs to be done for a singular value.
+    #
+    # @param value [Object] Value to be assigned/evaluated.
+    # @param options [AttributeOptions] Options pertaining to the attribute
+    # @return [Object] Value for the new object
+    def _single_value(value, options)
+      return value unless options.type
+
+      _convert_value(value, options.type, options.objectable)
     end
 
     # Handles object creation of arbitrary types
@@ -144,10 +146,21 @@ module Objectmancy
     # @param creator [#to_s, nil] Method used to create the object
     # @return [Object] The newly created object
     def _convert_value(old_value, type, creator)
+      creation_klass, creation_method = _creation_method(type, creator)
+
+      creation_klass.send(creation_method, old_value)
+    end
+
+    # Determines the method of creation for a custom object
+    #
+    # @param type [Symbol, Class] Type of object to create
+    # @param creator [#to_s, nil] Method used to create the object
+    # @return [Array] Class to create, method to call.
+    def _creation_method(type, creator)
       if (known = Types::SPECIAL_TYPES[type])
-        known[:klass].send(known[:objectable], old_value)
+        [known[:klass], known[:objectable]]
       else
-        type.send((creator || :new), old_value)
+        [type, (creator || :new)]
       end
     end
   end
