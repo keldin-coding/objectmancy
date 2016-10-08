@@ -3,7 +3,8 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in objectmancy.gemspec
 gemspec
 
-gem 'yard', '~> 0.9'
+gem 'bundler-audit'
+gem 'm'
 gem 'pry'
 gem 'pry-byebug'
-gem 'm'
+gem 'yard', '~> 0.9'

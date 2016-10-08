@@ -99,6 +99,13 @@ module Objectmancy
       after_initialize
     end
 
+    # Updates the attributes of the object
+    #
+    # @param attrs [Hash] Attributes to update
+    def mass_update(attrs = {})
+      _attributes_update!(attrs)
+    end
+
     # Comparator for two objects
     #
     # @param [Object] Object to be compared to
