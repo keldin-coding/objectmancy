@@ -92,6 +92,8 @@ module Objectmancy
     #
     # @param attrs [Hash] Hash of attributes to create the object with
     def initialize(attrs = {})
+      before_initialize
+
       _assignable_attributes(attrs).each do |attr, value|
         options = self.class.registered_attributes[attr.to_sym]
 
@@ -104,9 +106,17 @@ module Objectmancy
 
         send("#{attr}=", value)
       end
+
+      after_initialize
     end
 
     private
+
+    # Empty before_initialize callback
+    def before_initialize; end
+
+    # Empty after_initialize callback
+    def after_initialize; end
 
     # Determines which attributes are assignable
     #

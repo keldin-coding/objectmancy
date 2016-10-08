@@ -55,6 +55,8 @@ module ObjTestClasses
   class TestObject
     include Objectmancy::Objectable
 
+    attr_reader :before_init, :after_init
+
     attribute :name
 
     attribute :update_date, type: :datetime
@@ -67,5 +69,13 @@ module ObjTestClasses
     multiples :library, type: Book
     multiples :menagerie, type: Cat
     multiples :board_games, type: Game, objectable: :from_string
+
+    def before_initialize
+      @before_init = :before_set
+    end
+
+    def after_initialize
+      @after_init = :after_set
+    end
   end
 end
