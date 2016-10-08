@@ -5,7 +5,7 @@ module Objectmancy
 
     # Creates a new AttributeAlreadyDefinedError
     #
-    # @param [#to_s] Name of the attribute in error
+    # @param attribute [#to_s] name of the attribute in error
     def initialize(attribute)
       @attribute = attribute
     end
@@ -13,7 +13,7 @@ module Objectmancy
     # Message for logging
     #
     # @return [String] message containing the attribute name
-    # explaining the error.
+    #   explaining the error.
     def message
       "#{attribute} has already been defined."
     end

@@ -6,3 +6,4 @@ gemspec
 gem 'yard', '~> 0.9'
 gem 'pry'
 gem 'pry-byebug'
+gem 'm'
