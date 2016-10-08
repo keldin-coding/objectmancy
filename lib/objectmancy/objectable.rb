@@ -99,7 +99,7 @@ module Objectmancy
           if options.multiple
             _convert_multiples(value, options.type, options.objectable)
           else
-            _single_vaue(value, options)
+            _single_value(value, options)
           end
 
         send("#{attr}=", value)
