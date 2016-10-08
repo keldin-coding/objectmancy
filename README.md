@@ -1,5 +1,7 @@
 # Objectmancy
 
+![](https://travis-ci.org/jon2992/objectmancy.svg?branch=master)
+
 Objectmancy is a way to convert Hashes to Objects of your choosing without having to inherit from anything, primitive or otherwise. You need only include the appropriate module and define your attributes.
 
 ## Table of Contents
