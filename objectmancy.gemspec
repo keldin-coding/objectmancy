@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/jon2992/objectmancy'
   spec.license       = 'MIT'
 
-  spec.files         = ['lib/**/*']
+  spec.files         = Dir['lib/**/*']
   spec.require_paths = ['lib']
 
   spec.add_dependency 'iso8601', '~> 0.9'
