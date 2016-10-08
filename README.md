@@ -2,6 +2,19 @@
 
 Objectmancy is a way to convert Hashes to Objects of your choosing without having to inherit from anything, primitive or otherwise. You need only include the appropriate module and define your attributes.
 
+## Table of Contents
+- [Installation](#installation)
+    - [Usage](#usage)
+        - [Objectable](#objectable)
+            - [.initialize](#initialize)
+            - [.attribute](#attribute)
+            - [.multiples](#multiples)
+            - [Supported types](#supported-types)
+            - [Example](#example)
+    - [Development](#development)
+    - [Contributing](#contributing)
+    - [License](#license)
+
 ## Installation
 
 Add this line to your application's Gemfile:
