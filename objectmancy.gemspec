@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Set of extensions used to convert a hash to an object.'
   spec.description   = 'Set of extensions used to convert a hash to an object.'
-  spec.homepage      = 'http://github.com'
+  spec.homepage      = 'https://github.com/jon2992/objectmancy'
   spec.license       = 'MIT'
 
   spec.files         = ['lib/**/*']
