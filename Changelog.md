@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 1.1.0
+* Adds comparator for all classes including Objectable.
+
 ## Version 1.0.0
 * Allows creation of objects with raw data (i.e. no fancy conversion).
 * Adds support for datetimes.

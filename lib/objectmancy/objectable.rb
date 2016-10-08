@@ -94,18 +94,7 @@ module Objectmancy
     def initialize(attrs = {})
       before_initialize
 
-      _assignable_attributes(attrs).each do |attr, value|
-        options = self.class.registered_attributes[attr.to_sym]
-
-        value =
-          if options.multiple
-            _convert_multiples(value, options.type, options.objectable)
-          else
-            _single_value(value, options)
-          end
-
-        send("#{attr}=", value)
-      end
+      _attributes_update!(attrs)
 
       after_initialize
     end
@@ -132,10 +121,28 @@ module Objectmancy
 
     # Determines which attributes are assignable
     #
-    # @param attrs [Hash] Provided base hash
+    # @param attrs [Hash] Provided hash of attributes
     # @return [Hash] Allowed attributes
     def _assignable_attributes(attrs)
       attrs.select { |k, _| self.class.registered_attributes.include? k.to_sym }
+    end
+
+    # Updates the values for defiend attributes
+    #
+    # @params attrs [Hash] Provided hash of attributes
+    def _attributes_update!(attrs)
+      _assignable_attributes(attrs).each do |attr, value|
+        options = self.class.registered_attributes[attr.to_sym]
+
+        value =
+          if options.multiple
+            _convert_multiples(value, options.type, options.objectable)
+          else
+            _single_value(value, options)
+          end
+
+        send("#{attr}=", value)
+      end
     end
 
     # Assigns a multiples attribute

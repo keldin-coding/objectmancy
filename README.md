@@ -35,6 +35,8 @@ Or install it yourself as:
 
 ## Usage
 
+To include `Objectable`, you may `include Objectmancy` as well for easier consumption.
+
 ### Objectable
 
 `Objectmancy::Objectable` is the Module to mixin in order to consume the abilities. It works with the cooperation of three methods `.attribute`, `.multiples` and `.initialize`. 
@@ -55,7 +57,7 @@ Currently supported known types with built-in parsing into non-standard objects:
 
 #### Example
 
-The following is an extensive example of a set of classes built to consume `Objectmancy::Objectable` in all of its basic ways. This is taken from the tests, with comments added as guidance. Note that the `#==` definition is not required; I added it for tests. A future enhancement is to implement `#==` for consumers. Skipping ahead to the `TestObject` definition will provide the most value.
+The following is an extensive example of a set of classes built to consume `Objectmancy::Objectable` in all of its basic ways. This is taken from the tests, with comments added as guidance. Skipping ahead to the `TestObject` definition will provide the most value.
 
 ```ruby
 class Book
@@ -65,12 +67,6 @@ class Book
   # will have these attributes set to whatever key this is in the Hash.
   attribute :title
   attribute :author
-
-  def ==(other)
-    self.class == other.class &&
-      title == other.title &&
-      author == other.author
-  end
 end
 
 class Cat
