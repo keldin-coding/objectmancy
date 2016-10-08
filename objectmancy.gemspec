@@ -17,6 +17,8 @@ Gem::Specification.new do |spec|
   spec.files         = ['lib/**/*']
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'iso8601', '~> 0.9'
+
   spec.add_development_dependency 'rubocop', '0.43'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'minitest', '~> 5.0'

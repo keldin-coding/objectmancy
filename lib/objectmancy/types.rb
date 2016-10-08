@@ -1,9 +1,15 @@
+require 'iso8601'
+
 module Objectmancy
   # Namespace for storing type logic around manipulating different data types.
   module Types
+    # DateTime special type specification
+    DATETIME = { klass: ISO8601::DateTime, objectable: :new }.freeze
+
     # Known types with special behavior defined.
     SPECIAL_TYPES = {
-      datetime: { klass: Time, objectable: :iso8601 }
+      datetime: DATETIME
     }.freeze
+
   end
 end
