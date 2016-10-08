@@ -11,12 +11,6 @@ module ObjTestClasses
 
     attribute :title
     attribute :author
-
-    def ==(other)
-      self.class == other.class &&
-        title == other.title &&
-        author == other.author
-    end
   end
 
   class Cat

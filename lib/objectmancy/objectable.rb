@@ -110,6 +110,18 @@ module Objectmancy
       after_initialize
     end
 
+    # Comparator for two objects
+    #
+    # @param [Object] Object to be compared to
+    # @returns [TrueClass, FalseClass] Boolean indicating if the two objects
+    #   are equal.
+    def ==(other)
+      self.class == other.class &&
+        self.class.registered_attributes.keys.all? do |attr|
+          send(attr) == other.send(attr)
+        end
+    end
+
     private
 
     # Empty before_initialize callback
