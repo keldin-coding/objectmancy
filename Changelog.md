@@ -5,6 +5,7 @@
 * Extracted commonalities to common area.
 * Adds ability to update attributes.
 * Adds hashability for basic attributes and other Hashable objects.
+* Adds hashability support for custom attributes.
 
 ## Version 1.0.0
 * Allows creation of objects with raw data (i.e. no fancy conversion).
