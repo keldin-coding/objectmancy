@@ -16,5 +16,13 @@ module Objectmancy
       @multiple = options[:multiple]
       @hashable = options[:hashable]
     end
+
+    # Returns a new copy of of the given object without a value for the multiple
+    # attribute.
+    #
+    # @return [AttributeOptions]
+    def force_singular
+      AttributeOptions.new(type: type, hashable: hashable)
+    end
   end
 end

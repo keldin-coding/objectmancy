@@ -39,8 +39,8 @@ module Objectmancy
 
     # Comparator for two objects
     #
-    # @param [Object] Object to be compared to
-    # @returns [TrueClass, FalseClass] Boolean indicating if the two objects
+    # @param other [Object]to be compared to
+    # @return [TrueClass, FalseClass] Boolean indicating if the two objects
     #   are equal.
     def ==(other)
       self.class == other.class &&
@@ -67,7 +67,7 @@ module Objectmancy
 
     # Updates the values for defiend attributes
     #
-    # @params attrs [Hash] Provided hash of attributes
+    # @param attrs [Hash] Provided hash of attributes
     def _attributes_update!(attrs)
       _assignable_attributes(attrs).each do |attr, value|
         options = self.class.registered_attributes[attr.to_sym]

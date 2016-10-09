@@ -5,18 +5,40 @@ require 'pry'
 module Objectmancy
   # Mixin for allowing your object to be converted into a Hash.
   module Hashable
+    # ClassMethods specific to Hashable functionality
+    module ClassMethods
+      # Allows the definition of Arrays of items to be turns into objects. Bear
+      # in mind that Arrays of basic objects (Strings, numbers, anything else
+      # that doesn't need special initialization) are handled by .attribute.
+      #
+      # @param name [#to_sym] Attribute name
+      # @param opts [Hash] Options to be applied
+      # @option opts [Symbol, Class] :type The type of object to create. Can be
+      #   either a Symbol of one of: :datetime; else, a Class
+      # @option opts [Symbol, String] :objectable Method to call on :type. Will
+      #   default to calling :new. Ignored if :type is one of the known types.
+      # @raise [AttributeAlreadyDefinedError] Attempt to define two attributes
+      #   of the same name
+      def multiples(name, **opts)
+        attribute(name, opts.merge(multiple: true))
+      end
+    end
+
     # @private
     def self.included(base)
-      base.extend(CommonClassMethods)
+      # These are inverted order because
+      base.extend(ClassMethods, CommonClassMethods)
     end
 
     # Turns the object into a Hash according to the rules defined with
+    #
+    # @return [Hash] Hash representing the object
     def hashify
       ary = _present_hashable_values.map do |attr, options|
         [attr, _hashify_value(send(attr), options)]
       end
 
-      ary.to_h.reject { |_, v| v.nil? || (v.respond_to?(:empty?) && v.empty?) }
+      ary.to_h
     end
 
     private
@@ -40,10 +62,15 @@ module Objectmancy
     #   attribute
     # @return [Object] Value for the final hash
     def _hashify_value(value, attribute_options)
-      return value.hashify if value.respond_to?(:hashify)
-      return value unless attribute_options.hashable || attribute_options.type
-
-      _convert_hashable_value(value, attribute_options)
+      if value.respond_to? :hashify
+        value.hashify
+      elsif attribute_options.multiple
+        value.map { |v| _hashify_value(v, attribute_options.force_singular) }
+      elsif attribute_options.hashable || attribute_options.type
+        _convert_hashable_value(value, attribute_options)
+      else
+        value
+      end
     end
 
     def _convert_hashable_value(value, attribute_options)

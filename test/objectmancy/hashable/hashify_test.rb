@@ -33,6 +33,9 @@ class HashableTest < Minitest::Test
     attribute :age
     attribute :person # Hashable object
     attribute :movie, hashable: :to_s
+
+    multiples :film_collection, hashable: :to_s
+    multiples :people
   end
 
   # Verifies regular values are hashified appropriately
@@ -51,11 +54,10 @@ class HashableTest < Minitest::Test
     test_obj = NewTest.new
     person = Person.new('Edgar', 'Friendly')
     test_obj.person = person
-    generated_hash = test_obj.hashify
 
     assert_equal(
       { person: { first_name: 'Edgar', last_name: 'Friendly' } },
-      generated_hash
+      test_obj.hashify
     )
   end
 
@@ -64,8 +66,39 @@ class HashableTest < Minitest::Test
     test_obj = NewTest.new
     movie = Movie.new('Lord of the Rings', :fantasy)
     test_obj.movie = movie
-    generated_hash = test_obj.hashify
 
-    assert_equal({ movie: movie.to_s }, generated_hash)
+    assert_equal({ movie: movie.to_s }, test_obj.hashify)
+  end
+
+  # Verifies hashability of multiples of values with special method
+  def test_hashify_multiples_hashable_defined
+    movie1 = Movie.new('Lord of the Flies', :comedy)
+    movie2 = Movie.new('Dangerous Liasisons', :drama)
+    movies = [movie1, movie2]
+    test_obj = NewTest.new
+    test_obj.film_collection = movies
+
+    assert_equal(
+      { film_collection: [movie1.to_s, movie2.to_s] },
+      test_obj.hashify
+    )
+  end
+
+  # Verifies Hashability of multiples of Hashable objects
+  def test_hashify_multiples_hashable_native
+    person1 = Person.new('Allison', 'Janney')
+    person2 = Person.new('Martin', 'Sheen')
+    persons = [person1, person2]
+    test_obj = NewTest.new
+    test_obj.people = persons
+
+    assert_equal(
+      { people: [
+          {first_name: 'Allison', last_name: 'Janney'},
+          {first_name: 'Martin', last_name: 'Sheen'}
+        ]
+      },
+      test_obj.hashify
+    )
   end
 end
