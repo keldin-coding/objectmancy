@@ -1,4 +1,5 @@
 require 'objectmancy/errors'
+require 'objectmancy/attribute_options'
 
 module Objectmancy
    # Class methods mixed into anything including one of the mixins for

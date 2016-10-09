@@ -3,7 +3,8 @@
 ## Version 1.1.0
 * Adds comparator for all classes including Objectable.
 * Extracted commonalities to common area.
-* Adds ability to update attributes
+* Adds ability to update attributes.
+* Adds hashability for basic attributes and other Hashable objects.
 
 ## Version 1.0.0
 * Allows creation of objects with raw data (i.e. no fancy conversion).

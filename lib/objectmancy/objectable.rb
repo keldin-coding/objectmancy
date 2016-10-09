@@ -1,14 +1,9 @@
-require 'pry'
-
 require 'objectmancy/common_class_methods'
 require 'objectmancy/types'
-require 'objectmancy/attribute_options'
-
 
 module Objectmancy
   # Mixin for allowing your objects to take a Hash and turn them into an object.
-  # By default, the values will be whatever the value of the Hash at that key
-  # is.
+  #
   # @example Including Objectable
   #   class Kitten
   #     include Objectmancy::Objectable
@@ -18,8 +13,6 @@ module Objectmancy
   #
   #   tabby = Kitten.new(name: 'Eddy')
   #   tabby.name # => "Eddy"
-  #
-  #
   module Objectable
     # @private
     def self.included(base)
