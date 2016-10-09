@@ -3,7 +3,7 @@ require_relative '../../test_helper'
 # rubocop:disable Metrics/MethodLength
 class HashableTest < Minitest::Test
   class Person
-    include Objectmancy::Hashable
+    include Objectmancy
 
     attribute :first_name
     attribute :last_name
@@ -28,7 +28,7 @@ class HashableTest < Minitest::Test
   end
 
   class NewTest
-    include Objectmancy::Hashable
+    include Objectmancy
 
     attribute :name
     attribute :age

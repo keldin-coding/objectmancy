@@ -7,7 +7,7 @@ require 'minitest/pride'
 # Setup test classes
 module ObjTestClasses
   class Book
-    include Objectmancy::Objectable
+    include Objectmancy
 
     attribute :title
     attribute :author
