@@ -35,11 +35,9 @@ module Objectmancy
     #
     # @return [Hash] Hash representing the object
     def hashify
-      ary = _present_hashable_values.map do |attr, options|
-        [attr, _hashify_value(send(attr), options)]
+      _present_hashable_values.each_with_object({}) do |(attr, options), memo|
+        memo[attr] = _hashify_value(send(attr), options)
       end
-
-      ary.to_h
     end
 
     private
