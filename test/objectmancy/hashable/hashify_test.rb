@@ -1,5 +1,6 @@
 require_relative '../../test_helper'
 
+# rubocop:disable Metrics/MethodLength
 class HashableTest < Minitest::Test
   class Person
     include Objectmancy::Hashable
@@ -93,12 +94,14 @@ class HashableTest < Minitest::Test
     test_obj.people = persons
 
     assert_equal(
-      { people: [
-          {first_name: 'Allison', last_name: 'Janney'},
-          {first_name: 'Martin', last_name: 'Sheen'}
+      {
+        people: [
+          { first_name: 'Allison', last_name: 'Janney' },
+          { first_name: 'Martin', last_name: 'Sheen' }
         ]
       },
       test_obj.hashify
     )
   end
 end
+# rubocop:enable Metrics/MethodLength
