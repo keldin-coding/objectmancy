@@ -7,12 +7,14 @@ module Objectmancy
     # @!attribute [r] type
     # @!attribute [r] objectable
     # @!attribute [r] multiple
-    attr_reader :type, :objectable, :multiple
+    # @!attribute [r] hashable
+    attr_reader :type, :objectable, :multiple, :hashable
 
     def initialize(**options)
       @type = options[:type]
       @objectable = options[:objectable]
       @multiple = options[:multiple]
+      @hashable = options[:hashable]
     end
   end
 end

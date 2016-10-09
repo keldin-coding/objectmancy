@@ -13,12 +13,26 @@ class HashableTest < Minitest::Test
     end
   end
 
+  class Movie
+    attr_reader :title, :genre
+
+    def initialize(title, genre)
+      @title = title
+      @genre = genre
+    end
+
+    def to_s
+      "#{title} - #{genre}"
+    end
+  end
+
   class NewTest
     include Objectmancy::Hashable
 
     attribute :name
     attribute :age
-    attribute :person, type: Person
+    attribute :person # Hashable object
+    attribute :movie, hashable: :to_s
   end
 
   # Verifies regular values are hashified appropriately
@@ -43,5 +57,15 @@ class HashableTest < Minitest::Test
       { person: { first_name: 'Edgar', last_name: 'Friendly' } },
       generated_hash
     )
+  end
+
+  # Verifies that non-Hashable objects with a hashable method works
+  def test_hashify_non_hashable_objects_with_hashable_method
+    test_obj = NewTest.new
+    movie = Movie.new('Lord of the Rings', :fantasy)
+    test_obj.movie = movie
+    generated_hash = test_obj.hashify
+
+    assert_equal({ movie: movie.to_s }, generated_hash)
   end
 end
