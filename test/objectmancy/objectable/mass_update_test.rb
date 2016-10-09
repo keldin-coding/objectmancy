@@ -13,7 +13,7 @@ class ObjectableMassUpdateTest < Minitest::Test
   # Verifies unregistered attributes aren't updated and no new attributes are
   # created.
   def test_avoids_updating_unknown_attributes
-    test_obj = ObjTestClasses::TestObject.new(book: {title: 'title'})
+    test_obj = ObjTestClasses::TestObject.new(book: { title: 'title' })
     test_obj.mass_update(higgilty_piggilty: 'something')
 
     refute_respond_to(test_obj, :higgilty_piggilty)

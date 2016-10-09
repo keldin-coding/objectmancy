@@ -2,8 +2,8 @@ require 'objectmancy/errors'
 require 'objectmancy/attribute_options'
 
 module Objectmancy
-   # Class methods mixed into anything including one of the mixins for
-   # Objectmancy
+  # Class methods mixed into anything including one of the mixins for
+  # Objectmancy
   module CommonClassMethods
     # @private
     # Basic setup of the class-level state.

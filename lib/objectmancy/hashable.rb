@@ -49,7 +49,7 @@ module Objectmancy
     def _convert_hashable_value(value, attribute_options)
       hashable_method =
         attribute_options.hashable ||
-          Types::SPECIAL_TYPES[attribute_options.type][:hashable]
+        Types::SPECIAL_TYPES[attribute_options.type][:hashable]
 
       value.send(hashable_method)
     end
