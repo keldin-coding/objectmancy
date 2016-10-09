@@ -2,13 +2,6 @@ require_relative '../../test_helper'
 
 # rubocop:disable Metrics/MethodLength
 class ObjectableMultiplesTest < Minitest::Test
-  # Multiples require the type option
-  def test_multiples_require_type_option
-    assert_raises(ArgumentError) do
-      ObjTestClasses::TestObject.send(:multiples, :something)
-    end
-  end
-
   # Verifies multiple datetimes can be parsed correctly.
   def test_multiples_of_datetimes
     birth_dates = %w(2012-01-14 1995-07-04)

@@ -1,5 +1,6 @@
 require 'objectmancy/errors'
 require 'objectmancy/attribute_options'
+require 'objectmancy/hashable'
 
 module Objectmancy
   # Class methods mixed into anything including one of the mixins for
@@ -55,9 +56,10 @@ module Objectmancy
     #   default to calling :new. Ignored if :type is one of the known types.
     # @raise [AttributeAlreadyDefinedError] Attempt to define two attributes
     #   of the same name
-    # @raise [ArgumentError] Calling .multiples without :type option
+    # @raise [ArgumentError] Calling .multiples without :type option for
+    #   non-Hashable objects.
     def multiples(name, **opts)
-      if opts[:type].nil?
+      if !ancestors.include?(Objectmancy::Hashable) && opts[:type].nil?
         raise ArgumentError, 'Multiples require the :type option'
       end
 

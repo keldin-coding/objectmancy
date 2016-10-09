@@ -5,7 +5,7 @@ require 'objectmancy/hashable'
 # Also serves as a mixin to include Objectable
 module Objectmancy
   def self.included(base)
-    base.include(Hashable)
     base.include(Objectable)
+    base.include(Hashable)
   end
 end

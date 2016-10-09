@@ -37,6 +37,10 @@ Or install it yourself as:
 
 To include `Objectable`, you may `include Objectmancy` as well for easier consumption.
 
+### Objectmancy
+
+You can `include Objectmancy` into your class to gain both `Objectable` and ``
+
 ### Objectable
 
 `Objectmancy::Objectable` is the Module to mixin in order to consume the abilities. It works with the cooperation of three methods `.attribute`, `.multiples` and `.initialize`. 
@@ -45,15 +49,10 @@ To include `Objectable`, you may `include Objectmancy` as well for easier consum
 `Objectable` provides an `.initialize` method for your object that you can use at any time. You may override with your own and call `super` and pass it your values to create your object. You may also define a separate class method to use with `Objectable`. However, preferably, you will keep and use `Objectable`'s `.initialize` method and make use of the `before_initialize` or `after_initialize` callbacks if you need custom behavior.
 
 #### `.attribute`
-By default, your new object's values will be set to whatever the associated key is in the base hash. You can specify a `:type` option which lets you use either a Class of your choosing to create the object, or a Symbol representing a type that `Objectmancy` knows about. By default, `Objectable` will call `new` on your passed in type and pass the value of the hash to it. You may set the `:objectable` option to provide a different method to call on the `:type` value. The value of the hash is still the only argument passed.
+By default, your new object's values will be set to whatever the associated key is in the base hash. You can specify a `:type` option which lets you use either a Class of your choosing to create the object, or a [Symbol representing a type that `Objectmancy` knows about](#supported-types). By default, `Objectable` will call `new` on your passed in type and pass the value of the hash to it. You may set the `:objectable` option to provide a different method to call on the `:type` value. The value of the hash is still the only argument passed.
 
 #### `.multiples`
-`multiples` behaves in much the same way, except a `:type` option is required. `.multiples` is intended for Arrays of objects which need special attention (i.e., custom defined types or objects of a type supported by `Objectmancy`)
-
-#### Supported types
-
-Currently supported known types with built-in parsing into non-standard objects:
-* `:datetime` - uses the [`ISO8601` gem](https://github.com/arnau/ISO8601) for parsing
+`multiples` behaves in much the same way, except a `:type` option is required. `.multiples` is intended for Arrays of objects which need special attention (i.e., custom defined types or [objects of a type supported by `Objectmancy`](#supported-types))
 
 #### Example
 
@@ -156,6 +155,39 @@ class TestObject
   end
 end
 ```
+
+### Hashable
+
+`Objectmancy::Hashable` is a mixin for making an object easier to convert into a Hash. This defines `Hashable#hashify` on an object. _This should not be overridden._ You must define the attributes to be Hashified using the `.attribute` or `.multiples` method for Arrays of special objects. Objects requiring `.multiples` for a collection are those with a [supported type](#supported-types) or those with a custom `:hashable` method. When defining, it shoud follow this pattern (method name of `#hash_me` aside):
+
+```ruby
+class Kitten
+  def iniitialize(name)
+    @name = name
+  end
+
+  def hash_me
+    "#{name} is a cat"
+  end  
+end
+
+class Foobar
+  include Objectmancy::Hashable
+
+  multiples :fizzbangs, hashable: :hash_me
+end
+
+f = Foobar.new
+f.fizzbangs = [Kitten.new('Tux'), Kitten.new('Socks')]
+f.hashify # => { fizzbangs: ['Tux is a cat', 'Socks is a cat'] }
+```
+
+If no custom handling is provided for non-standard value (string, number, array, hash, etc...), either through a defined method or via including `Hashable`, then the output value will be the object definition (typically something like `#<Foobar:0x007ffb168b3760>`), so it's good to define a method of some kind.
+
+## Supported types
+
+Currently supported known types with built-in parsing into non-standard objects:
+* `:datetime` - uses the [`ISO8601` gem](https://github.com/arnau/ISO8601) for parsing
 
 ## Development
 

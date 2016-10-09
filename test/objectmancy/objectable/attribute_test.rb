@@ -10,31 +10,6 @@ class ObjectableAttributeTest < Minitest::Test
     assert_equal(name, test_object.name)
   end
 
-  # Verifies that random attr_accessors are not defined.
-  def test_does_not_create_attr_accessors_for_undefined_attributes
-    assert_raises(NoMethodError) do
-      ObjTestClasses::TestObject.new(cat: 'cat').cat
-    end
-  end
-
-  # Verifies that an AttributeAlreadyDefinedError is raised for duplicate
-  # attributes.
-  def test_raises_attribute_already_defined_error_for_duplicates
-    assert_raises(Objectmancy::AttributeAlreadyDefinedError) do
-      ObjTestClasses::TestObject.send :attribute, :name
-    end
-  end
-
-  # Verifies that an ArgumentError is raised when objectable is passed in
-  # without type
-  def test_raises_argument_error_with_objectable_and_without_type
-    assert_raises(ArgumentError) do
-      ObjTestClasses::TestObject.send :attribute,
-                                      :something_else,
-                                      objectable: :blurgh
-    end
-  end
-
   # Verifies that DateTime types are parsed with ISO8601.
   def test_datetime_values_are_parsed
     update_date = '2015-12-01T16:43:35.878-05:00'

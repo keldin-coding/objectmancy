@@ -6,28 +6,29 @@ module Objectmancy
   # Mixin for allowing your object to be converted into a Hash.
   module Hashable
     # ClassMethods specific to Hashable functionality
-    module ClassMethods
-      # Allows the definition of Arrays of items to be turns into objects. Bear
-      # in mind that Arrays of basic objects (Strings, numbers, anything else
-      # that doesn't need special initialization) are handled by .attribute.
-      #
-      # @param name [#to_sym] Attribute name
-      # @param opts [Hash] Options to be applied
-      # @option opts [Symbol, Class] :type The type of object to create. Can be
-      #   either a Symbol of one of: :datetime; else, a Class
-      # @option opts [Symbol, String] :objectable Method to call on :type. Will
-      #   default to calling :new. Ignored if :type is one of the known types.
-      # @raise [AttributeAlreadyDefinedError] Attempt to define two attributes
-      #   of the same name
-      def multiples(name, **opts)
-        attribute(name, opts.merge(multiple: true))
-      end
-    end
+    # module ClassMethods
+    #   # Allows the definition of Arrays of items to be turns into objects. Bear
+    #   # in mind that Arrays of basic objects (Strings, numbers, anything else
+    #   # that doesn't need special initialization) are handled by .attribute.
+    #   #
+    #   # @param name [#to_sym] Attribute name
+    #   # @param opts [Hash] Options to be applied
+    #   # @option opts [Symbol, Class] :type The type of object to create. Can be
+    #   #   either a Symbol of one of: :datetime; else, a Class
+    #   # @option opts [Symbol, String] :objectable Method to call on :type. Will
+    #   #   default to calling :new. Ignored if :type is one of the known types.
+    #   # @raise [AttributeAlreadyDefinedError] Attempt to define two attributes
+    #   #   of the same name
+    #   def multiples(name, **opts)
+    #     super(name, { hashable: true }.merge(opts))
+    #   end
+    # end
 
     # @private
+    # This is a little shady, but I'm not sure of a better way to do it.
+    # I gladly welcome suggestions.
     def self.included(base)
-      # These are inverted order because
-      base.extend(ClassMethods, CommonClassMethods)
+      base.extend(CommonClassMethods)
     end
 
     # Turns the object into a Hash according to the rules defined with
