@@ -39,7 +39,7 @@ To include `Objectable`, you may `include Objectmancy` as well for easier consum
 
 ### Objectmancy
 
-You can `include Objectmancy` into your class to gain both `Objectable` and ``
+You can `include Objectmancy` into your class to gain both [`Objectable`](#objectable) and [`Hashable`](#hashable) functionality.
 
 ### Objectable
 
