@@ -34,7 +34,9 @@ module Objectmancy
     #
     # @param attrs [Hash] Attributes to update
     def mass_update(attrs = {})
-      _attributes_update!(attrs)
+      tap do
+        _attributes_update!(attrs)
+      end
     end
 
     # Comparator for two objects
