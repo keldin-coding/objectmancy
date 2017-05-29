@@ -26,4 +26,10 @@ class ObjectableMassUpdateTest < Minitest::Test
 
     assert_equal('smile', test_obj.video_game.developer)
   end
+
+  def test_method_returns_self
+    test_obj = ObjTestClasses::TestObject.new(name: 'old name')
+    test_obj.mass_update(name: 'new', primes: [1, 2])
+    assert_equal(test_obj, test_obj.mass_update(name: 'new', primes: [1, 2]))
+  end
 end
