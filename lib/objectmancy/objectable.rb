@@ -35,7 +35,9 @@ module Objectmancy
     # @param attrs [Hash] Attributes to update
     def mass_update(attrs = {})
       tap do
+        before_mass_update
         _attributes_update!(attrs)
+        after_mass_update
       end
     end
 
@@ -58,6 +60,12 @@ module Objectmancy
 
     # Empty after_initialize callback
     def after_initialize; end
+
+    # Empty before mass_update callback
+    def before_mass_update; end
+
+    # Empty after mass_update callback
+    def after_mass_update; end
 
     # Determines which attributes are assignable
     #
