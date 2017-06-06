@@ -31,4 +31,16 @@ class ObjectableMassUpdateTest < Minitest::Test
     test_obj = ObjTestClasses::TestObject.new(name: 'old name')
     assert_same(test_obj, test_obj.mass_update(name: 'new', primes: [1, 2]))
   end
+
+  def test_before_callback
+    test_obj = ObjTestClasses::TestObject.new
+    test_obj.mass_update(name: 'before')
+    assert_equal(:before_update_set, test_obj.before_mass_update_set)
+  end
+
+  def test_after_callback
+    test_obj = ObjTestClasses::TestObject.new
+    test_obj.mass_update(name: 'after')
+    assert_equal(:after_update_set, test_obj.after_mass_update_set)
+  end
 end

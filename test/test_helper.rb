@@ -49,7 +49,10 @@ module ObjTestClasses
   class TestObject
     include Objectmancy::Objectable
 
-    attr_reader :before_init, :after_init
+    attr_reader :before_init,
+                :after_init,
+                :before_mass_update_set,
+                :after_mass_update_set
 
     attribute :name
 
@@ -70,6 +73,14 @@ module ObjTestClasses
 
     def after_initialize
       @after_init = :after_set
+    end
+
+    def before_mass_update
+      @before_mass_update_set = :before_update_set
+    end
+
+    def after_mass_update
+      @after_mass_update_set = :after_update_set
     end
   end
 end
